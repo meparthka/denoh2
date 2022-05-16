@@ -1,11 +1,19 @@
     import { Server } from "https://deno.land/std/http/server.ts";
    
-    const handler = (request: Request) => {
+    const handler = async (request: Request) => {
       const body = `Your user-agent is:\n\n${request.headers.get(
        "user-agent",
       ) ?? "Unknown"}`;
+      
+      let t = "";
+      
+      if(request.body) {
+      	t  = await request.text();
+      }
+      
+      console.log(t);
    
-      return new Response(body, { status: 200 });
+      return new Response(body, { status: 200, headers: {"Content-Type": "text/html"} });
     };
    
     const server = new Server({ handler });
